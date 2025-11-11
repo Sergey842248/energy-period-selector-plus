@@ -27,21 +27,18 @@ The original repository provided the solid foundation that made this enhanced ve
 ## 🚀 What's New & Fixed
 
 ### New Features
-- **Layout Modes** - Choose between `standard` and `compact` layouts
-- **Header Integration** - Optimized `compact` mode perfect for header usage
-- **Enhanced UI Editor** - Added layout mode selection to the configuration interface
-- **Improved Responsiveness** - Better behavior on different screen sizes
-- **Better Theme Integration** - Proper color theming throughout
+- **Custom comparing** - Compare a selected time period with any other custom (self defined) period
 
-### Code Quality Improvements
-- **Cleaner CSS** - Removed redundant and conflicting styles
-- **Better TypeScript** - Improved type safety and code organization
-- **Simplified Configuration** - Removed unused options and simplified the API
-- **Enhanced Documentation** - Comprehensive examples and usage guides
+### Improved
+- **Text size** - A bigger text size for better readability
+
+### Fixes
+- **Compare data buttons** - Fixed compare data buttons not showing comparable data
+
 
 ## ✨ Features
 
-- **UI Editor** - Easy configuration through Home Assistant's interface
+- **UI Editor** - Easy configuration through Home Assistant's interface (only at first setup)
 - **Flexible Layout Modes** - Standard card layout or compact header integration
 - **Customizable Buttons** - Show/hide and style Compare, Today, and Period buttons
 - **Entity Synchronization** - Sync dates with Home Assistant entities
