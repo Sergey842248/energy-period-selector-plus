@@ -566,6 +566,9 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
 
   private _toggleCompare() {
     this._compare = !this._compare;
+    if (!this._compare) {
+      this._showCompareCalendar = false;
+    }
     const energyCollection = getEnergyDataCollection(this.hass, {
       key: this.collectionKey,
     });
