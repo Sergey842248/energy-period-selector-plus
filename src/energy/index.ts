@@ -325,7 +325,15 @@ export const getReferencedStatisticIds = (prefs: EnergyPreferences, info: Energy
   return statIDs;
 };
 
-const getEnergyData = async (hass: HomeAssistant, prefs: EnergyPreferences, start: Date, end?: Date, compare?: boolean): Promise<EnergyData> => {
+const getEnergyData = async (
+  hass: HomeAssistant,
+  prefs: EnergyPreferences,
+  start: Date,
+  end?: Date,
+  compare?: boolean,
+  startCompare?: Date,
+  endCompare?: Date,
+): Promise<EnergyData> => {
   const [configEntries, info] = await Promise.all([getConfigEntries(hass, { domain: 'co2signal' }), getEnergyInfo(hass)]);
 
   const co2SignalConfigEntry = configEntries.length ? configEntries[0] : undefined;
@@ -385,26 +393,28 @@ const getEnergyData = async (hass: HomeAssistant, prefs: EnergyPreferences, star
     : {};
 
   let statsCompare;
-  let startCompare;
-  let endCompare;
   let _energyStatsCompare: Statistics | Promise<Statistics> = {};
   let _waterStatsCompare: Statistics | Promise<Statistics> = {};
 
   if (compare) {
-    if (dayDifference > 27 && dayDifference < 32) {
-      // When comparing a month, we want to start at the begining of the month
-      startCompare = addMonths(start, -1);
-    } else {
-      startCompare = addDays(start, (dayDifference + 1) * -1);
+    if (!startCompare) {
+      if (dayDifference > 27 && dayDifference < 32) {
+        // When comparing a month, we want to start at the begining of the month
+        startCompare = addMonths(start, -1);
+      } else {
+        startCompare = addDays(start, (dayDifference + 1) * -1);
+      }
+      endCompare = addMilliseconds(start, -1);
     }
 
-    const compareStartMinHour = addHours(startCompare, -1);
-    endCompare = addMilliseconds(start, -1);
-    if (energyStatIds.length) {
-      _energyStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, energyStatIds, period, energyUnits, ['change']);
-    }
-    if (waterStatIds.length) {
-      _waterStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, waterStatIds, period, waterUnits, ['change']);
+    if (startCompare) {
+      const compareStartMinHour = addHours(startCompare, -1);
+      if (energyStatIds.length) {
+        _energyStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare!, energyStatIds, period, energyUnits, ['change']);
+      }
+      if (waterStatIds.length) {
+        _waterStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare!, waterStatIds, period, waterUnits, ['change']);
+      }
     }
   }
 
@@ -419,7 +429,7 @@ const getEnergyData = async (hass: HomeAssistant, prefs: EnergyPreferences, star
       end,
       dayDifference > 35 ? 'month' : dayDifference > 2 ? 'day' : 'hour',
     );
-    if (compare) {
+    if (compare && startCompare && endCompare) {
       _fossilEnergyConsumptionCompare = getFossilEnergyConsumption(
         hass!,
         startCompare,
@@ -495,10 +505,13 @@ const getEnergyData = async (hass: HomeAssistant, prefs: EnergyPreferences, star
 export interface EnergyCollection extends Collection<EnergyData> {
   start: Date;
   end?: Date;
+  startCompare?: Date;
+  endCompare?: Date;
   compare?: boolean;
   prefs?: EnergyPreferences;
   clearPrefs(): void;
   setPeriod(newStart: Date, newEnd?: Date): void;
+  setComparePeriod(newStart: Date, newEnd?: Date): void;
   setCompare(compare: boolean): void;
   _refreshTimeout?: number;
   _updatePeriodTimeout?: number;
@@ -554,7 +567,7 @@ export const getEnergyDataCollection = (hass: HomeAssistant, options: { prefs?: 
       collection._refreshTimeout = window.setTimeout(() => collection.refresh(), nextFetch.getTime() - Date.now());
     }
 
-    return getEnergyData(hass, collection.prefs, collection.start, collection.end, collection.compare);
+    return getEnergyData(hass, collection.prefs, collection.start, collection.end, collection.compare, collection.startCompare, collection.endCompare);
   }) as EnergyCollection;
 
   const origSubscribe = collection.subscribe;
@@ -610,6 +623,10 @@ export const getEnergyDataCollection = (hass: HomeAssistant, options: { prefs?: 
   };
   collection.setCompare = (compare: boolean) => {
     collection.compare = compare;
+  };
+  collection.setComparePeriod = (newStart: Date, newEnd?: Date) => {
+    collection.startCompare = newStart;
+    collection.endCompare = newEnd;
   };
   return collection;
 };

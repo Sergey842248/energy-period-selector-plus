@@ -41,8 +41,11 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
   @property() public collectionKey?: string;
   @state() _startDate?: Date;
   @state() _endDate?: Date;
+  @state() _compareStartDate?: Date;
+  @state() _compareEndDate?: Date;
   @state() private _period?: 'day' | 'week' | 'month' | 'year' | 'custom';
   @state() private _compare = false;
+  @state() private _showCompareCalendar = false;
   @state() private _lastSyncToEntityTimestamp = 0;
   @state() private _lastSyncFromEntityTimestamp = 0;
   @state() private _userActionTimestamp = 0;
@@ -273,6 +276,56 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
               </div>
             `}
       </div>
+      ${this._compare
+        ? html`
+            <div class="date-controls-row">
+              <div class="date-display">
+                ${this._compareStartDate
+                  ? this._period === 'day'
+                    ? formatDate(this._compareStartDate, this.hass.locale)
+                    : this._period === 'month'
+                    ? formatDateMonthYear(this._compareStartDate, this.hass.locale)
+                    : this._period === 'year'
+                    ? formatDateYear(this._compareStartDate, this.hass.locale)
+                    : `${formatDateShort(this._compareStartDate, this.hass.locale)} – ${formatDateShort(this._compareEndDate || new Date(), this.hass.locale)}`
+                  : this.hass.localize('ui.panel.lovelace.components.energy_period_selector.compare')}
+              </div>
+              <div class="navigation-controls">
+                <ha-icon-button
+                  .label=${this.hass.localize('ui.components.date-range-picker.select_date_range')}
+                  .path=${mdiCalendarTodayOutline}
+                  @click=${this._pickCompareDate}
+                ></ha-icon-button>
+              </div>
+            </div>
+          `
+        : nothing}
+      ${this._showCompareCalendar
+        ? html`
+            <div class="date-range-container">
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._compareStartDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.start_date')}
+                @value-changed=${this._compareStartDateChanged}
+                .required=${true}
+                .min=${'2019-01-01'}
+                .max=${this._compareEndDate?.toISOString() || endOfToday().toISOString()}
+              >
+              </ha-date-input>
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._compareEndDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.end_date')}
+                @value-changed=${this._compareEndDateChanged}
+                .required=${true}
+                .min=${this._compareStartDate?.toISOString() || ''}
+                .max=${endOfToday().toISOString()}
+              >
+              </ha-date-input>
+            </div>
+          `
+        : nothing}
     `;
 
     // Renders main content based on layout mode
@@ -299,6 +352,16 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
   public _endDateChanged(ev: CustomEvent): void {
     if (this._startDate && new Date(ev.detail.value) > this._startDate) {
       this._setDate(this._startDate, new Date(ev.detail.value));
+    }
+  }
+
+  public _compareStartDateChanged(ev: CustomEvent): void {
+    this._setCompareDate(new Date(ev.detail.value));
+  }
+
+  public _compareEndDateChanged(ev: CustomEvent): void {
+    if (this._compareStartDate && new Date(ev.detail.value) > this._compareStartDate) {
+      this._setCompareDate(this._compareStartDate, new Date(ev.detail.value));
     }
   }
 
@@ -406,6 +469,10 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
       this._processPickNext(clickId);
     }, 300);
   }
+
+  private _pickCompareDate() {
+    this._showCompareCalendar = !this._showCompareCalendar;
+  }
   
   private _processPickNext(clickId: number) {
     // Check if we're already processing a click
@@ -466,17 +533,22 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     });
     energyCollection.setPeriod(startDate, endDate);
     energyCollection.refresh();
+  }
 
-    // Sync to entity if configured and not skipping
-    if (!skipEntitySync) {
-      this._syncToEntity();
-    }
+  private _setCompareDate(startDate: Date, endDate?: Date) {
+    const energyCollection = getEnergyDataCollection(this.hass, {
+      key: this.collectionKey,
+    });
+    energyCollection.setComparePeriod(startDate, endDate);
+    energyCollection.refresh();
   }
 
   private _updateDates(energyData: EnergyData): void {
     this._compare = energyData.startCompare !== undefined;
     this._startDate = energyData.start;
     this._endDate = energyData.end || endOfToday();
+    this._compareStartDate = energyData.startCompare;
+    this._compareEndDate = energyData.endCompare;
     const dayDifference = differenceInDays(this._endDate, this._startDate || endOfToday());
     this._period =
       this._period !== 'custom'
