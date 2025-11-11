@@ -401,10 +401,10 @@ const getEnergyData = async (hass: HomeAssistant, prefs: EnergyPreferences, star
     const compareStartMinHour = addHours(startCompare, -1);
     endCompare = addMilliseconds(start, -1);
     if (energyStatIds.length) {
-      _energyStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, energyStatIds, period, energyUnits, ['sum']);
+      _energyStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, energyStatIds, period, energyUnits, ['change']);
     }
     if (waterStatIds.length) {
-      _waterStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, waterStatIds, period, waterUnits, ['sum']);
+      _waterStatsCompare = fetchStatistics(hass!, compareStartMinHour, endCompare, waterStatIds, period, waterUnits, ['change']);
     }
   }
 
