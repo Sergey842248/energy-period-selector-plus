@@ -43,7 +43,7 @@ export const stylesBase = css`
     height: 18px;
     min-width: 35px;
     padding: 2px 6px;
-    font-size: 10px;
+    font-size: 20px;
     vertical-align: middle;
   }
 
@@ -52,7 +52,7 @@ export const stylesBase = css`
     height: 18px;
     min-width: 35px;
     padding: 2px 6px;
-    font-size: 10px;
+    font-size: 20px;
     vertical-align: middle;
   }
   
@@ -60,7 +60,7 @@ export const stylesBase = css`
     height: 18px;
     min-width: 35px;
     padding: 2px 6px;
-    font-size: 10px;
+    font-size: 20px;
     vertical-align: middle;
   }
   
@@ -68,7 +68,7 @@ export const stylesBase = css`
     height: 18px;
     min-width: 35px;
     padding: 2px 6px;
-    font-size: 10px;
+    font-size: 20px;
     vertical-align: middle;
     display: flex;
     align-items: center;
@@ -139,7 +139,7 @@ export const stylesBase = css`
 
   /* Compact date display */
   .energy-period-selector.compact-mode .date-display {
-    font-size: 12px;
+    font-size: 24px;
     font-weight: 400;
   }
   
@@ -168,7 +168,7 @@ export const stylesBase = css`
     gap: 0.5rem;
   }
   .date-display {
-    font-size: 16px;
+    font-size: 32px;
     font-weight: 500;
   }
   
@@ -235,7 +235,7 @@ export const stylesBase = css`
     border: 1px solid var(--divider-color, #e0e0e0);
     color: var(--primary-text-color, #000000);
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -307,7 +307,7 @@ export const stylesBase = css`
     border: 1px solid var(--divider-color, #e0e0e0);
     color: var(--primary-text-color) !important;
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -346,7 +346,7 @@ export const stylesBase = css`
     border: 1px solid #202124;
     color: var(--primary-text-color) !important;
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -407,7 +407,7 @@ export const stylesBase = css`
   .navigation-controls ha-button {
     --mdc-button-height: 20px !important;
     --mdc-button-min-width: 40px !important;
-    --mdc-typography-button-font-size: 11px !important;
+    --mdc-typography-button-font-size: 22px !important;
     --mdc-typography-button-font-weight: 500 !important;
     --mdc-typography-button-text-transform: uppercase !important;
     --mdc-typography-button-letter-spacing: 0.0892857143em !important;
@@ -418,7 +418,7 @@ export const stylesBase = css`
     border-radius: 4px !important;
     height: 20px !important;
     min-width: 40px !important;
-    font-size: 11px !important;
+    font-size: 22px !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
   }
@@ -427,13 +427,13 @@ export const stylesBase = css`
   .navigation-controls ha-button mwc-button {
     --mdc-button-height: 20px !important;
     --mdc-button-min-width: 40px !important;
-    --mdc-typography-button-font-size: 11px !important;
+    --mdc-typography-button-font-size: 22px !important;
     --mdc-typography-button-font-weight: 500 !important;
     --mdc-typography-button-text-transform: uppercase !important;
     --mdc-button-outline-color: #202124 !important;
     height: 20px !important;
     min-width: 40px !important;
-    font-size: 11px !important;
+    font-size: 22px !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
   }
@@ -444,7 +444,7 @@ export const stylesBase = css`
     border: 1px solid var(--divider-color, #e0e0e0);
     color: var(--primary-text-color) !important;
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -502,11 +502,11 @@ export const stylesBase = css`
       max-width: 100%;
     }
     .period-button-custom {
-      flex: 0 0 auto;
-      min-width: 50px;
-      padding: 3px 8px;
-      font-size: 11px;
-      height: 20px;
+    flex: 0 0 auto;
+    min-width: 50px;
+    padding: 3px 8px;
+    font-size: 22px;
+    height: 20px;
     }
     .period-button-custom.active {
       background-color: var(--primary-color, #03a9f4) !important;
@@ -519,7 +519,7 @@ export const stylesBase = css`
       gap: 0.5rem;
     }
     .date-display {
-      font-size: 14px;
+      font-size: 28px;
       text-align: right;
       flex: 1;
     }
@@ -528,18 +528,18 @@ export const stylesBase = css`
       min-width: 40px;
       height: 20px;
       padding: 3px 8px;
-      font-size: 11px;
+      font-size: 22px;
     }
     .compare-button-custom {
       min-width: 40px;
       height: 20px;
       padding: 3px 8px;
-      font-size: 11px;
+      font-size: 22px;
     }
     .navigation-controls ha-button {
       --mdc-button-height: 20px;
       --mdc-button-min-width: 40px;
-      font-size: 11px;
+      font-size: 22px;
       padding: 3px 8px;
     }
     
@@ -549,29 +549,29 @@ export const stylesBase = css`
     .period-button-custom {
       min-width: 40px;
       padding: 2px 6px;
-      font-size: 10px;
+      font-size: 20px;
       height: 18px;
     }
     .date-display {
-      font-size: 12px;
+      font-size: 24px;
     }
     .today-button-custom,
     .today-button-fallback {
       min-width: 35px;
       height: 18px;
       padding: 2px 6px;
-      font-size: 10px;
+      font-size: 20px;
     }
     .compare-button-custom {
       min-width: 35px;
       height: 18px;
       padding: 2px 6px;
-      font-size: 10px;
+      font-size: 20px;
     }
     .navigation-controls ha-button {
       --mdc-button-height: 18px;
       --mdc-button-min-width: 35px;
-      font-size: 10px;
+      font-size: 20px;
       padding: 2px 6px;
     }
     
@@ -579,7 +579,7 @@ export const stylesBase = css`
     .energy-period-selector.compact-mode .period-button-custom {
       min-width: 30px;
       padding: 1px 4px;
-      font-size: 9px;
+      font-size: 18px;
       height: 16px;
     }
     
@@ -587,14 +587,14 @@ export const stylesBase = css`
       min-width: 30px;
       height: 16px;
       padding: 1px 4px;
-      font-size: 9px;
+      font-size: 18px;
     }
     
     .energy-period-selector.compact-mode .compare-button-custom {
       min-width: 30px;
       height: 16px;
       padding: 1px 4px;
-      font-size: 9px;
+      font-size: 18px;
     }
     
     .energy-period-selector.compact-mode .navigation-controls ha-icon-button,
@@ -610,7 +610,7 @@ export const stylesBase = css`
     }
     
     .energy-period-selector.compact-mode .date-display {
-      font-size: 10px;
+      font-size: 20px;
     }
   }
   
