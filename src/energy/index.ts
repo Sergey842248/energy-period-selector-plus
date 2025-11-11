@@ -623,6 +623,10 @@ export const getEnergyDataCollection = (hass: HomeAssistant, options: { prefs?: 
   };
   collection.setCompare = (compare: boolean) => {
     collection.compare = compare;
+    if (!compare) {
+      collection.startCompare = undefined;
+      collection.endCompare = undefined;
+    }
   };
   collection.setComparePeriod = (newStart: Date, newEnd?: Date) => {
     collection.startCompare = newStart;
