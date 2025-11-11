@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
+    "rootDir": "./src",
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
@@ -19,6 +20,5 @@
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     "isolatedModules": true
-  },
-  "include": ["src"]
+  }
 }
