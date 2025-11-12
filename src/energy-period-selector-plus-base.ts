@@ -65,6 +65,7 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
   async firstUpdated() {
     const helpers = await (window as any).loadCardHelpers();
     helpers.importMoreInfoControl('input_datetime'); // This is needed to render the datepicker!!!
+    helpers.importMoreInfoControl('ha-date-range-picker');
     
     // Load button and selector components
     try {
