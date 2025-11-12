@@ -1,9 +1,13 @@
 import { css } from 'lit';
 
 export const styles = css`
-  ha-card {
-    padding: 1rem;
-  }
+ha-card {
+    padding: 16px;
+    border-radius: var(--ha-card-border-radius, 12px);
+    border: 1px solid var(--ha-card-border-color, var(--divider-color));
+    background: var(--ha-card-background, var(--card-background-color));
+    box-shadow: none;
+}
   h1 {
     padding: 0;
     padding-bottom: 1rem;
@@ -167,7 +171,6 @@ export const stylesBase = css`
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
-    height: 20px;
   }
   .date-controls-row {
     display: flex;
@@ -177,15 +180,20 @@ export const stylesBase = css`
     gap: 0.5rem;
   }
   .date-display {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 400;
   }
   
   .navigation-controls {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     gap: 0.25rem;
+  }
+  .navigation-controls ha-icon-button-prev,
+  .navigation-controls ha-icon-button-next {
+    --mdc-icon-button-size: 36px;
+    width: 36px;
+    height: 36px;
   }
   
   /* Arrow button alignment and sizing - most specific selectors */
@@ -239,39 +247,39 @@ export const stylesBase = css`
     box-shadow: none;
   }
   
-  .period-button-custom {
+.period-button-custom {
     background: var(--card-background-color, #ffffff);
     border: 1px solid var(--divider-color, #e0e0e0);
     color: var(--primary-text-color, #000000);
-    padding: 4px 8px;
-    font-size: 17px;
+    padding: 0 12px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 0;
     font-family: inherit;
     min-width: 40px;
-    height: 20px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-transform: uppercase;
-    letter-spacing: 0.0892857143em;
+    text-transform: none;
+    letter-spacing: 0.1px;
     outline: none;
     position: relative;
-  }
+}
   
-  /* First button - rounded left */
-  .period-button-custom:first-child {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-  }
-  
-  /* Last button - rounded right */
-  .period-button-custom:last-child {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-  }
+/* First button - rounded left */
+.period-button-custom:first-child {
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+
+/* Last button - rounded right */
+.period-button-custom:last-child {
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
   
   /* Remove right border from all except last */
   .period-button-custom:not(:last-child) {
@@ -285,10 +293,13 @@ export const stylesBase = css`
   }
   
   /* Active/selected state */
-  .period-button-custom.active {
-    background-color: var(--primary-color, #03a9f4) !important;
-    color: var(--text-primary-on-color, #ffffff) !important;
-    border-color: var(--primary-color, #03a9f4) !important;
+.period-button-custom.active {
+    background-color: var(--primary-color) !important;
+    color: var(--text-primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+  .period-button-custom:not(.active):hover {
+    background-color: rgba(var(--rgb-primary-color), 0.1);
   }
   
   /* Focus state */
@@ -311,26 +322,26 @@ export const stylesBase = css`
 
   
   /* Custom Today button - matches period buttons */
-  .today-button-custom {
-    background: var(--card-background-color, #ffffff);
+.today-button-custom {
+    background: transparent;
     border: 1px solid var(--divider-color, #e0e0e0);
-    color: var(--primary-text-color) !important;
-    padding: 4px 8px;
-    font-size: 17px;
+    color: var(--primary-color) !important;
+    padding: 0 12px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 4px;
+    border-radius: 18px;
     font-family: inherit;
     min-width: 40px;
-    height: 20px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-transform: uppercase;
-    letter-spacing: 0.0892857143em;
+    text-transform: none;
+    letter-spacing: 0.1px;
     outline: none;
-  }
+}
   
   .today-button-custom:hover {
     background-color: var(--divider-color, #e0e0e0);
@@ -448,29 +459,29 @@ export const stylesBase = css`
   }
   
   /* Text compare button - positioned above button group */
-  .compare-button-custom {
-    background: var(--card-background-color, #ffffff);
+.compare-button-custom {
+    background: transparent;
     border: 1px solid var(--divider-color, #e0e0e0);
-    color: var(--primary-text-color) !important;
-    padding: 4px 8px;
-    font-size: 17px;
+    color: var(--primary-color) !important;
+    padding: 0 12px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 4px;
+    border-radius: 18px;
     font-family: inherit;
     min-width: 40px;
-    height: 20px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-transform: uppercase;
-    letter-spacing: 0.0892857143em;
+    text-transform: none;
+    letter-spacing: 0.1px;
     outline: none;
     vertical-align: middle;
     margin-bottom: 0.5rem;
     align-self: flex-end;
-  }
+}
   
   .compare-button-custom:hover {
     background-color: var(--divider-color, #e0e0e0);

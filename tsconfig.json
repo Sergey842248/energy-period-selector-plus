@@ -20,5 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     "isolatedModules": true
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts", "jest.config.js", "rollup.config.js", "rollup.config.dev.js", "rollup.config.mjs"]
 }

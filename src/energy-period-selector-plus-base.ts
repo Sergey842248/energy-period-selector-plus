@@ -104,10 +104,6 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
       console.warn('Failed to load ha-button component:', error);
     }
     
-    // Try to style buttons after initial load
-    setTimeout(() => {
-      this._forceButtonStyling();
-    }, 1000);
   }
 
   public hassSubscribe(): Array<UnsubscribeFunc | Promise<UnsubscribeFunc>> {
@@ -732,89 +728,8 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     `;
   }
 
-  private _onSelectorUpdated() {
-    // Force styling after selector updates
-    this._forceButtonStyling();
-    
-    // Also try again after a longer delay in case elements aren't ready
-    setTimeout(() => {
-      this._forceButtonStyling();
-    }, 500);
-  }
-
-  private _forceButtonStyling() {
-    setTimeout(() => {
-      // Style period selector buttons
-      const selector = this.shadowRoot?.querySelector('ha-selector');
-      if (selector) {
-        const buttons = selector.querySelectorAll('mwc-button');
-        buttons.forEach(button => {
-          (button as any).style.setProperty('--mdc-button-height', '20px', 'important');
-          (button as any).style.setProperty('--mdc-button-min-width', '40px', 'important');
-          (button as any).style.setProperty('--mdc-typography-button-font-size', '11px', 'important');
-          (button as any).style.setProperty('--mdc-typography-button-font-weight', '500', 'important');
-          (button as any).style.setProperty('--mdc-typography-button-text-transform', 'uppercase', 'important');
-          (button as any).style.setProperty('--mdc-button-outline-color', '#202124', 'important');
-          (button as any).style.setProperty('--mdc-theme-primary', '#d2d3d3', 'important');
-          (button as any).style.height = '20px';
-          (button as any).style.minWidth = '40px';
-          (button as any).style.fontSize = '11px';
-          (button as any).style.fontWeight = '500';
-          (button as any).style.textTransform = 'uppercase';
-          (button as any).style.border = '1px solid #202124';
-        });
-      }
-      
-      // Style navigation arrow buttons
-      const arrowButtons = this.shadowRoot?.querySelectorAll('.navigation-controls ha-icon-button, .navigation-controls ha-icon-button-prev, .navigation-controls ha-icon-button-next');
-      
-      arrowButtons?.forEach((button) => {
-        (button as any).style.setProperty('--mdc-icon-button-size', '20px', 'important');
-        (button as any).style.height = '20px';
-        (button as any).style.width = '20px';
-        (button as any).style.minHeight = '20px';
-        (button as any).style.minWidth = '20px';
-        (button as any).style.maxHeight = '20px';
-        (button as any).style.maxWidth = '20px';
-        (button as any).style.padding = '0';
-        (button as any).style.margin = '0';
-        (button as any).style.lineHeight = '20px';
-        (button as any).style.display = 'inline-flex';
-        (button as any).style.alignItems = 'center';
-        (button as any).style.justifyContent = 'center';
-        (button as any).style.verticalAlign = 'middle';
-        (button as any).style.position = 'relative';
-        (button as any).style.top = '0';
-        (button as any).style.transform = 'none';
-        (button as any).style.border = 'none';
-        (button as any).style.outline = 'none';
-        (button as any).style.boxShadow = 'none';
-        
-        // Style internal button elements
-        const internalButtons = button.querySelectorAll('button, mwc-icon-button, .mdc-icon-button');
-        internalButtons.forEach((internalButton) => {
-          (internalButton as any).style.height = '20px';
-          (internalButton as any).style.width = '20px';
-          (internalButton as any).style.minHeight = '20px';
-          (internalButton as any).style.minWidth = '20px';
-          (internalButton as any).style.maxHeight = '20px';
-          (internalButton as any).style.maxWidth = '20px';
-          (internalButton as any).style.padding = '0';
-          (internalButton as any).style.margin = '0';
-          (internalButton as any).style.display = 'inline-flex';
-          (internalButton as any).style.alignItems = 'center';
-          (internalButton as any).style.justifyContent = 'center';
-          (internalButton as any).style.verticalAlign = 'middle';
-          (internalButton as any).style.setProperty('--mdc-icon-button-size', '20px', 'important');
-        });
-      });
-    }, 100);
-  }
-
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    // Force styling after updates
-    this._onSelectorUpdated();
   }
 
   static styles = stylesBase;
