@@ -46,6 +46,7 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
   @state() private _period?: 'day' | 'week' | 'month' | 'year' | 'custom';
   @state() private _compare = false;
   @state() private _showCompareCalendar = false;
+  @state() private _showCustomCalendar = false;
   @state() private _lastSyncToEntityTimestamp = 0;
   @state() private _lastSyncFromEntityTimestamp = 0;
   @state() private _userActionTimestamp = 0;
@@ -243,34 +244,38 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     // Renders date controls
     const dateControlsSection = html`
       <div class="date-controls-row">
-        ${this._period === 'custom'
-          ? dateRangePicker
-          : html`
-              <div class="date-display">
-                ${this._period === 'day'
-                  ? formatDate(this._startDate, this.hass.locale)
-                  : this._period === 'month'
-                  ? formatDateMonthYear(this._startDate, this.hass.locale)
-                  : this._period === 'year'
-                  ? formatDateYear(this._startDate, this.hass.locale)
-                  : `${formatDateShort(this._startDate, this.hass.locale)} – ${formatDateShort(this._endDate || new Date(), this.hass.locale)}`}
-              </div>
-              <div class="navigation-controls">
-                ${this._config?.prev_next_buttons !== false
-                  ? html`
-                      <ha-icon-button-prev
-                        .label=${this.hass.localize('ui.panel.lovelace.components.energy_period_selector.previous')}
-                        @click=${this._pickPrevious}
-                      ></ha-icon-button-prev>
-                      <ha-icon-button-next
-                        .label=${this.hass.localize('ui.panel.lovelace.components.energy_period_selector.next')}
-                        @click=${this._pickNext}
-                      ></ha-icon-button-next>
-                    `
-                  : nothing}
-                ${todayButton}
-              </div>
-            `}
+        <div class="date-display">
+          ${this._period === 'day'
+            ? formatDate(this._startDate, this.hass.locale)
+            : this._period === 'month'
+            ? formatDateMonthYear(this._startDate, this.hass.locale)
+            : this._period === 'year'
+            ? formatDateYear(this._startDate, this.hass.locale)
+            : `${formatDateShort(this._startDate, this.hass.locale)} – ${formatDateShort(this._endDate || new Date(), this.hass.locale)}`}
+        </div>
+        <div class="navigation-controls">
+          ${this._period === 'custom'
+            ? html`
+                <ha-icon-button
+                  .label=${this.hass.localize('ui.components.date-range-picker.select_date_range')}
+                  .path=${mdiCalendarTodayOutline}
+                  @click=${this._pickCustomDate}
+                ></ha-icon-button>
+              `
+            : this._config?.prev_next_buttons !== false
+            ? html`
+                <ha-icon-button-prev
+                  .label=${this.hass.localize('ui.panel.lovelace.components.energy_period_selector.previous')}
+                  @click=${this._pickPrevious}
+                ></ha-icon-button-prev>
+                <ha-icon-button-next
+                  .label=${this.hass.localize('ui.panel.lovelace.components.energy_period_selector.next')}
+                  @click=${this._pickNext}
+                ></ha-icon-button-next>
+              `
+            : nothing}
+          ${this._period !== 'custom' ? todayButton : nothing}
+        </div>
       </div>
       ${this._compare
         ? html`
@@ -322,6 +327,32 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
             </div>
           `
         : nothing}
+      ${this._showCustomCalendar
+        ? html`
+            <div class="date-range-container">
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._startDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.start_date')}
+                @value-changed=${this._startDateChanged}
+                .required=${true}
+                .min=${'2019-01-01'}
+                .max=${this._endDate?.toISOString() || endOfToday().toISOString()}
+              >
+              </ha-date-input>
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._endDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.end_date')}
+                @value-changed=${this._endDateChanged}
+                .required=${true}
+                .min=${this._startDate.toISOString()}
+                .max=${endOfToday().toISOString()}
+              >
+              </ha-date-input>
+            </div>
+          `
+        : nothing}
     `;
 
     // Renders main content based on layout mode
@@ -363,6 +394,10 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
 
   private _handleView(ev: CustomEvent): void {
     this._period = ev.detail.value;
+    // Hide custom calendar when switching away from custom period
+    if (this._period !== 'custom') {
+      this._showCustomCalendar = false;
+    }
     const today = startOfToday();
     const start =
       !this._startDate ||
@@ -468,6 +503,10 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
 
   private _pickCompareDate() {
     this._showCompareCalendar = !this._showCompareCalendar;
+  }
+
+  private _pickCustomDate() {
+    this._showCustomCalendar = !this._showCustomCalendar;
   }
   
   private _processPickNext(clickId: number) {
