@@ -4,7 +4,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { fireEvent, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import { assert, assign, boolean, object, optional, string, any } from 'superstruct';
+import { assert, assign, boolean, object, optional, string, array, union } from 'superstruct';
 import memoizeOne from 'memoize-one';
 
 import { localize } from '../localize/localize';
@@ -41,8 +41,8 @@ export class EnergyPeriodSelectorEditor extends LitElement implements LovelaceCa
           today_button: optional(boolean()),
           prev_next_buttons: optional(boolean()),
           compare_button_type: optional(string()),
-          today_button_type: optional(any()),
-          period_buttons: optional(any()),
+          today_button_type: optional(union([string(), boolean()])),
+          period_buttons: optional(array(string())),
           custom_period_label: optional(string()),
           compare_button_label: optional(string()),
           sync_entity: optional(string()),
