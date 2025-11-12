@@ -15,25 +15,9 @@ ha-card {
 `;
 
 export const stylesBase = css`
-  .date-range-container {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    width: 342px;
-    gap: 1rem;
+  ha-date-range-picker {
+    margin-right: 8px;
   }
-  .compare-date-range-container {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    width: 342px;
-    gap: 1rem;
-  }
-  
   /* Compact layout mode */
   .energy-period-selector.compact-mode {
     gap: 0.25rem;
