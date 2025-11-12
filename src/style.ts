@@ -15,19 +15,14 @@ ha-card {
 `;
 
 export const stylesBase = css`
-  .date-range-picker-container {
+  .date-range-container {
+    box-sizing: border-box;
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
-    width: 100%;
-  }
-
-  ha-date-range-picker {
-    --date-range-picker-width: 342px;
-    width: var(--date-range-picker-width);
-  }
-
-  ha-date-range-picker::part(label) {
-    display: none;
+    align-items: center;
+    width: 342px;
+    gap: 1rem;
   }
   .compare-date-range-container {
     box-sizing: border-box;

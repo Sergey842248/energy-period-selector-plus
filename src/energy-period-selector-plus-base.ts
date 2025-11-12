@@ -65,7 +65,6 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
   async firstUpdated() {
     const helpers = await (window as any).loadCardHelpers();
     helpers.importMoreInfoControl('input_datetime'); // This is needed to render the datepicker!!!
-    helpers.importMoreInfoControl('ha-date-range-picker');
     
     // Load button and selector components
     try {
@@ -169,12 +168,28 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     const layoutMode = this._config?.layout_mode || 'standard';
 
     const dateRangePicker = html`
-      <ha-date-range-picker
-        .hass=${this.hass}
-        .startDate=${this._startDate}
-        .endDate=${this._endDate}
-        @change=${this._dateRangeChanged}
-      ></ha-date-range-picker>
+      <div class="date-range-container">
+        <ha-date-input
+          .locale=${this.hass.locale}
+          .value=${this._startDate?.toISOString() || ''}
+          .label=${this.hass.localize('ui.components.date-range-picker.start_date')}
+          @value-changed=${this._startDateChanged}
+          .required=${true}
+          .min=${'2019-01-01'}
+          .max=${this._endDate?.toISOString() || endOfToday().toISOString()}
+        >
+        </ha-date-input>
+        <ha-date-input
+          .locale=${this.hass.locale}
+          .value=${this._endDate?.toISOString() || ''}
+          .label=${this.hass.localize('ui.components.date-range-picker.end_date')}
+          @value-changed=${this._endDateChanged}
+          .required=${true}
+          .min=${this._startDate.toISOString()}
+          .max=${endOfToday().toISOString()}
+        >
+        </ha-date-input>
+      </div>
     `;
 
     // Use custom HTML button for full control
@@ -229,7 +244,7 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     const dateControlsSection = html`
       <div class="date-controls-row">
         ${this._period === 'custom'
-          ? html`<div class="date-range-picker-container">${dateRangePicker}</div>`
+          ? dateRangePicker
           : html`
               <div class="date-display">
                 ${this._period === 'day'
@@ -283,12 +298,28 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
         : nothing}
       ${this._showCompareCalendar
         ? html`
-            <ha-date-range-picker
-              .hass=${this.hass}
-              .startDate=${this._compareStartDate}
-              .endDate=${this._compareEndDate}
-              @change=${this._compareDateRangeChanged}
-            ></ha-date-range-picker>
+            <div class="date-range-container">
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._compareStartDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.start_date')}
+                @value-changed=${this._compareStartDateChanged}
+                .required=${true}
+                .min=${'2019-01-01'}
+                .max=${this._compareEndDate?.toISOString() || endOfToday().toISOString()}
+              >
+              </ha-date-input>
+              <ha-date-input
+                .locale=${this.hass.locale}
+                .value=${this._compareEndDate?.toISOString() || ''}
+                .label=${this.hass.localize('ui.components.date-range-picker.end_date')}
+                @value-changed=${this._compareEndDateChanged}
+                .required=${true}
+                .min=${this._compareStartDate?.toISOString() || ''}
+                .max=${endOfToday().toISOString()}
+              >
+              </ha-date-input>
+            </div>
           `
         : nothing}
     `;
@@ -310,14 +341,24 @@ export class EnergyPeriodSelectorBase extends SubscribeMixin(LitElement) {
     `;
   }
 
-  private _dateRangeChanged(ev: CustomEvent): void {
-    const { startDate, endDate } = ev.detail;
-    this._setDate(startDate, endDate);
+  public _startDateChanged(ev: CustomEvent): void {
+    this._setDate(new Date(ev.detail.value));
   }
 
-  private _compareDateRangeChanged(ev: CustomEvent): void {
-    const { startDate, endDate } = ev.detail;
-    this._setCompareDate(startDate, endDate);
+  public _endDateChanged(ev: CustomEvent): void {
+    if (this._startDate && new Date(ev.detail.value) > this._startDate) {
+      this._setDate(this._startDate, new Date(ev.detail.value));
+    }
+  }
+
+  public _compareStartDateChanged(ev: CustomEvent): void {
+    this._setCompareDate(new Date(ev.detail.value));
+  }
+
+  public _compareEndDateChanged(ev: CustomEvent): void {
+    if (this._compareStartDate && new Date(ev.detail.value) > this._compareStartDate) {
+      this._setCompareDate(this._compareStartDate, new Date(ev.detail.value));
+    }
   }
 
   private _handleView(ev: CustomEvent): void {
