@@ -28,6 +28,7 @@ export class EnergyPeriodSelectorEditor extends LitElement implements LovelaceCa
   @state() private _config?: EnergyPeriodSelectorPlusConfig;
 
   public async setConfig(config: EnergyPeriodSelectorPlusConfig): Promise<void> {
+    await loadHaForm();
     assert(
       config,
       assign(
@@ -56,7 +57,6 @@ export class EnergyPeriodSelectorEditor extends LitElement implements LovelaceCa
 
   connectedCallback(): void {
     super.connectedCallback();
-    loadHaForm();
   }
 
   private _schema = memoizeOne(
