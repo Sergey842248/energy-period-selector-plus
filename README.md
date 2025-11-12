@@ -1,28 +1,11 @@
 # Energy Period Selector Plus
 
-[![ko-fi support](https://img.shields.io/badge/support-me-ff5e5b?style=flat-square&logo=ko-fi)](https://ko-fi.com/talkitron)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/talKitron/energy-period-selector-plus?style=flat-square)
-![GitHub all releases](https://img.shields.io/github/downloads/talKitron/energy-period-selector-plus/total?style=flat-square)
-![commit_activity](https://img.shields.io/github/commit-activity/y/talKitron/energy-period-selector-plus?color=brightgreen&label=Commits&style=flat-square)
+A better Energy Period Selector card for Home Assistant with more features, better design and improved stability.
 
-![Hero Image](https://github.com/user-attachments/assets/212bcaa3-fe10-4b2c-a7ad-fb07a3bba5f2)
-<img width="1042" height="237" alt="image" src="https://github.com/user-attachments/assets/2c170644-aa55-41c2-8efc-5a54292ec8ce" />
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Sergey842248/energy-period-selector-plus?style=flat-square)
 
-
-
-## 🎯 Goal
-
-The main goal of this card is to expand the functionality and customizability of the official [Energy Date Picker Card](https://www.home-assistant.io/dashboards/energy/#energy-date-picker) from Home Assistant.
-
-The goal is to deliver a card that fits in the overall design of the Energy Dashboard, while providing more features.
-
-## 🙏 Attribution & Credits
-
-This project is a continuation and enhancement of the original work by [@flixlix](https://github.com/flixlix). The original developer created an amazing foundation for this card, but after nearly 2 years of inactivity, we decided to continue development to fix critical issues and add new features.
-
-**We want to give massive credit and thanks to @flixlix for their incredible work and inspiration!** 🙌
-
-The original repository provided the solid foundation that made this enhanced version possible. Without their excellent initial implementation, this project wouldn't exist.
+![Preview Image Card](/screenshots/Card.jpg)
+![Preview Image Editor](/screenshots/Editor.png)
 
 ## 🚀 What's New & Fixed
 
@@ -31,6 +14,7 @@ The original repository provided the solid foundation that made this enhanced ve
 
 ### Improved
 - **Text size** - A bigger text size for better readability
+- **Design/UI** - Better UI style using some Material Design principles
 
 ### Fixes
 - **Compare data buttons** - Fixed compare data buttons not showing comparable data
@@ -60,7 +44,7 @@ To install this:
 
 <details>  <summary>Manual Install</summary>
 
-1. Download and copy `energy-period-selector-plus.js` from the [latest release](https://github.com/talKitron/energy-period-selector-plus/releases/latest) into your `config/www` directory.
+1. Download and copy `energy-period-selector-plus.js` from the [latest release](https://github.com/Sergey842248/energy-period-selector-plus/releases/latest) into your `config/www` directory.
 
 2. Add the resource reference as decribed below.
 
@@ -286,3 +270,11 @@ If you're upgrading from the original version, here's what you need to know:
 #### Real world Demo
 
 <img width="1071" alt="Custom period label" src="https://github.com/flixlix/energy-period-selector-plus/assets/61006057/b01a6be8-4d68-4e6e-8593-985bdf253afb">
+
+## 🙏 Attribution & Credits
+
+This project is a continuation and enhancement of the original work by [@flixlix](https://github.com/flixlix). The original developer created an amazing foundation for this card, but after nearly 2 years of inactivity, I decided to continue development to fix critical issues and add new features.
+
+**We want to give massive credit and thanks to @flixlix for their incredible work and inspiration!** 🙌
+
+The original repository provided the solid foundation that made this enhanced version possible. Without their excellent initial implementation, this project wouldn't exist.
